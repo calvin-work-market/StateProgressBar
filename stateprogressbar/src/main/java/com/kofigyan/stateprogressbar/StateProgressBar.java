@@ -550,7 +550,7 @@ public class StateProgressBar extends View {
 
     private void drawCircles(Canvas canvas, Paint paint, int startIndex, int endIndex) {
         for (int i = startIndex; i < endIndex; i++) {
-            canvas.drawCircle(mCellWidth * (i + 1) - (mCellWidth / 2), mCellHeight / 2, mStateRadius, paint);
+            canvas.drawCircle(mCellWidth * i + mStateRadius, mCellHeight / 2, mStateRadius, paint);
         }
     }
 
@@ -558,7 +558,7 @@ public class StateProgressBar extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        mCellWidth = getWidth() / mMaxStateNumber;
+        mCellWidth = (getWidth() - mStateSize) / (mMaxStateNumber - 1);
         mNextCellWidth = mCellWidth;
     }
 
@@ -624,9 +624,9 @@ public class StateProgressBar extends View {
 
         if (endIndex > startIndex) {
 
-            startCenterX = mCellWidth / 2 + mCellWidth * startIndex;
+            startCenterX = mCellWidth * startIndex;
 
-            endCenterX = mCellWidth * endIndex - (mCellWidth / 2);
+            endCenterX = mCellWidth * endIndex;
 
             startX = startCenterX + (mStateRadius * 0.75f);
             stopX = endCenterX - (mStateRadius * 0.75f);
@@ -770,8 +770,7 @@ public class StateProgressBar extends View {
 
             innerPaintType = selectPaintType(mCurrentStateNumber, i, mCheckStateCompleted);
 
-            xPos = (int) (mCellWidth * (i + 1) - (mCellWidth / 2));
-
+            xPos = (int) (mCellWidth * i + mStateRadius);
             yPos = (int) ((mCellHeight / 2) - ((innerPaintType.descent() + innerPaintType.ascent()) / 2));
 
             isChecked = isCheckIconUsed(mCurrentStateNumber, i);
