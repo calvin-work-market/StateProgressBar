@@ -606,17 +606,17 @@ public class StateProgressBar extends View {
 
         drawCurrentStateJoiningLine(canvas);
 
+
+        drawLines(canvas, mBackgroundPaint, mCurrentStateNumber - 1, mMaxStateNumber);
+        drawCircles(canvas, mBackgroundPaint, mCurrentStateNumber, mMaxStateNumber);
+
         if (mCheckStateCompleted) {
-            drawLines(canvas, mStateCompletePaint, mCurrentStateNumber - 1, mMaxStateNumber);
-            drawCircles(canvas, mStateCompletePaint, mCurrentStateNumber, mMaxStateNumber);
+            drawCircles(canvas, mStateCompletePaint, 0, mCurrentStateNumber);
+            drawLines(canvas, mStateCompletePaint, 0, mCurrentStateNumber - 1);
         } else {
-            drawLines(canvas, mBackgroundPaint, mCurrentStateNumber - 1, mMaxStateNumber);
-            drawCircles(canvas, mBackgroundPaint, mCurrentStateNumber, mMaxStateNumber);
+            drawCircles(canvas, mForegroundPaint, 0, mCurrentStateNumber);
+            drawLines(canvas, mForegroundPaint, 0, mCurrentStateNumber - 1);
         }
-
-        drawCircles(canvas, mForegroundPaint, 0, mCurrentStateNumber);
-
-        drawLines(canvas, mForegroundPaint, 0, mCurrentStateNumber - 1);
 
         drawStateNumberText(canvas, mMaxStateNumber);
         drawStateDescriptionText(canvas);
