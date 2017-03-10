@@ -104,11 +104,13 @@ public class StateProgressBar extends View {
     private Paint mForegroundPaint;
     private Paint mCurrentStateDescriptionPaint;
     private Paint mStateDescriptionPaint;
+    private Paint mStateCompletePaint;
 
     private int mBackgroundColor;
     private int mForegroundColor;
     private int mStateNumberBackgroundColor;
     private int mStateNumberForegroundColor;
+    private int mStateCompleteColor;
     private int mCurrentStateDescriptionColor;
     private int mStateDescriptionColor;
 
@@ -171,6 +173,7 @@ public class StateProgressBar extends View {
             mForegroundColor = a.getColor(R.styleable.StateProgressBar_spb_stateForegroundColor, mForegroundColor);
             mStateNumberBackgroundColor = a.getColor(R.styleable.StateProgressBar_spb_stateNumberBackgroundColor, mStateNumberBackgroundColor);
             mStateNumberForegroundColor = a.getColor(R.styleable.StateProgressBar_spb_stateNumberForegroundColor, mStateNumberForegroundColor);
+            mStateCompleteColor = a.getColor(R.styleable.StateProgressBar_spb_stateCompleteColor, mStateCompleteColor);
             mCurrentStateDescriptionColor = a.getColor(R.styleable.StateProgressBar_spb_currentStateDescriptionColor, mCurrentStateDescriptionColor);
             mStateDescriptionColor = a.getColor(R.styleable.StateProgressBar_spb_stateDescriptionColor, mStateDescriptionColor);
 
@@ -215,6 +218,7 @@ public class StateProgressBar extends View {
 
         mBackgroundPaint = setPaintAttributes(mStateLineThickness, mBackgroundColor);
         mForegroundPaint = setPaintAttributes(mStateLineThickness, mForegroundColor);
+        mStateCompletePaint = setPaintAttributes(mStateLineThickness, mStateCompleteColor);
         mStateNumberForegroundPaint = setPaintAttributes(mStateNumberTextSize, mStateNumberForegroundColor, typefaceBold);
         mStateCheckedForegroundPaint = setPaintAttributes(mStateNumberTextSize, mStateNumberForegroundColor, mCheckFont);
         mStateNumberBackgroundPaint = setPaintAttributes(mStateNumberTextSize, mStateNumberBackgroundColor, typefaceBold);
@@ -262,6 +266,7 @@ public class StateProgressBar extends View {
         validateLineThickness(mStateLineThickness);
         mBackgroundPaint.setStrokeWidth(mStateLineThickness);
         mForegroundPaint.setStrokeWidth(mStateLineThickness);
+        mStateCompletePaint.setStrokeWidth(mStateLineThickness);
         invalidate();
     }
 
@@ -601,9 +606,14 @@ public class StateProgressBar extends View {
 
         drawCurrentStateJoiningLine(canvas);
 
-        drawLines(canvas, mBackgroundPaint, mCurrentStateNumber - 1, mMaxStateNumber);
+        if (mCheckStateCompleted) {
+            drawLines(canvas, mStateCompletePaint, mCurrentStateNumber - 1, mMaxStateNumber);
+            drawCircles(canvas, mStateCompletePaint, mCurrentStateNumber, mMaxStateNumber);
+        } else {
+            drawLines(canvas, mBackgroundPaint, mCurrentStateNumber - 1, mMaxStateNumber);
+            drawCircles(canvas, mBackgroundPaint, mCurrentStateNumber, mMaxStateNumber);
+        }
 
-        drawCircles(canvas, mBackgroundPaint, mCurrentStateNumber, mMaxStateNumber);
         drawCircles(canvas, mForegroundPaint, 0, mCurrentStateNumber);
 
         drawLines(canvas, mForegroundPaint, 0, mCurrentStateNumber - 1);
