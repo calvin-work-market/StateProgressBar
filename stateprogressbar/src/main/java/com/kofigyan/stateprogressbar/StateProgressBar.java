@@ -610,14 +610,13 @@ public class StateProgressBar extends View {
         drawLines(canvas, mBackgroundPaint, mCurrentStateNumber - 1, mMaxStateNumber);
         drawCircles(canvas, mBackgroundPaint, mCurrentStateNumber, mMaxStateNumber);
 
+        drawLines(canvas, mForegroundPaint, 0, mCurrentStateNumber - 1);
         if (mCheckStateCompleted) {
             drawCircles(canvas, mStateCompletePaint, 0, mCurrentStateNumber - 1);
             drawCircles(canvas, mForegroundPaint, mCurrentStateNumber - 1, mCurrentStateNumber);
         } else {
             drawCircles(canvas, mForegroundPaint, 0, mCurrentStateNumber);
         }
-
-        drawLines(canvas, mForegroundPaint, 0, mCurrentStateNumber - 1);
 
         drawStateNumberText(canvas, mMaxStateNumber);
         drawStateDescriptionText(canvas);
